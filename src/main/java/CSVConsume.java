@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,8 +38,10 @@ public class CSVConsume {
             if (fileList != null) {
                 System.out.println("Read directory");
                 for (String fileName : fileList) {
-                    if (fileName.startsWith("sodch") && (fileName.endsWith("2.csv"))) {
+
+                    if (fileName.startsWith("sodch") && (fileName.endsWith(".csv"))) {
                         lineReader = new BufferedReader(new FileReader(dir.getAbsolutePath() + "/" + fileName));
+                        System.out.println(dir.toString() +"/"+ fileName +"-----!!___");
                         String lineText = null;
                         int count = 0;
                         lineReader.readLine();
@@ -51,6 +56,7 @@ public class CSVConsume {
                             if (lineText.endsWith("|")) {
                                 lineText += "\n";
                             }
+
                             i++;
                             System.out.println("Счетчик =" + i);
 
@@ -141,7 +147,14 @@ public class CSVConsume {
                             }
                         }
                         lineReader.close();
+                        System.out.println(dir.toString() +"/"+ fileName);
+                        Path temp = Files.move
+                                (Paths.get(dir.toString() +"/"+ fileName.toString()),
+                                        Paths.get("/Users/sergejmakarov/Downloads/CsvToDatabaseJava-master/src/main/java/out/" + fileName.toString()));
+
                     }
+
+
                 }
 
             }
